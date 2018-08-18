@@ -2,7 +2,7 @@
 A hash-like password generator
 
 ## * Note *
-I highly recommend using this program on something like a perminantly offline computer or virtual machine.
+I highly recommend using this program on something like a permanently offline computer or virtual machine.
 
 The output will also contain ASCII characters from 33- 126. So this will only work for websites that accept these characters. A version will be created at a later date that allows exclusion of certain characters from the output.
 
