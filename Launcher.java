@@ -8,6 +8,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Button;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 
 
 public class Launcher extends Application {
@@ -37,6 +40,11 @@ public class Launcher extends Application {
         private String output;
         private int length;
 
+        private Button copy;
+
+        private Clipboard clipboard;
+        private ClipboardContent content;
+
         private Window() {
             init();
         }
@@ -46,10 +54,12 @@ public class Launcher extends Application {
             Quasic quasic = Quasic.getInstance();
             output = "";
             initLabels();
+            initClipboard();
             initInputFields(quasic);
 
         }
 
+        // initialize the labels that we are going to use
         private void initLabels() {
             input_label = new Label("Message input:");
             input_label.setLayoutX(10);
@@ -70,6 +80,26 @@ public class Launcher extends Application {
             getChildren().addAll(input_label, outputLength_label, output_label, result_label);
         }
 
+        // initialize the clipboard button so that the user can copy to clipboard
+        // *note it is to my knowledge that the copied information is lost once the user
+        // exits the program, so theoretically this should be good for passwords as long 
+        // as the user exits Quasic after pasting the displayed string
+        private void initClipboard() {
+            copy = new Button("C");
+            copy.setLayoutX(555);
+            copy.setLayoutY(45);
+            clipboard = Clipboard.getSystemClipboard();
+            content = new ClipboardContent();
+            copy.setOnAction( e -> {
+                if(result_label != null && result_label.getText() != null) {
+                    content.putString(result_label.getText());
+                    clipboard.setContent(content);
+                }
+            });
+            getChildren().addAll(copy);
+        }
+
+        // initialize the input fields for user input
         private void initInputFields(Quasic quasic) {
             outputLength_inputField = new TextField();
             outputLength_inputField.setLayoutX(550);
